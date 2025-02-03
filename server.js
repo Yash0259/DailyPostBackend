@@ -9,22 +9,11 @@ const postRoutes = require("./src/routes/postRoutes");
 
 const app = express();
 
-// Middleware
-const allowedOrigins = [
-  'https://your-frontend-url.vercel.app', // Replace with your actual Vercel frontend URL
-  'http://localhost:3000', // If you also want to allow local development
-];
-
+// Middleware to allow all origins
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests from the allowedOrigins list or when there's no origin (for testing, etc.)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: "*", // Allows all origins
 }));
+
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(errorHandler);
