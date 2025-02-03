@@ -9,10 +9,22 @@ const postRoutes = require("./src/routes/postRoutes");
 
 const app = express();
 
-// Allow all origins
-app.use(cors({ origin: '*' }));
-
 // Middleware
+const allowedOrigins = [
+  'https://your-frontend-url.vercel.app', // Replace with your actual Vercel frontend URL
+  'http://localhost:3000', // If you also want to allow local development
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests from the allowedOrigins list or when there's no origin (for testing, etc.)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(errorHandler);
@@ -24,9 +36,9 @@ mongoose
     .then(() => console.log("MongoDB connected"))
     .catch((err) => console.log(err));
 
-// Default Route 
+// Default Route
 app.get("/", (req, res) => {
-    res.send("API is running...");
+  res.send("API is running...");
 });
 
 // Use post routes

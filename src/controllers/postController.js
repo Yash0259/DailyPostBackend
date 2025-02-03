@@ -43,7 +43,13 @@ exports.getAllPosts = async (req, res) => {
 exports.updatePost = async (req, res) => {
     try {
         const { title, description } = req.body;
-        const image = req.file ? `/uploads/${req.file.filename}` : null;
+        let image = req.file ? `/uploads/${req.file.filename}` : null;
+
+        // If no new image is uploaded, keep the existing image from the database
+        if (!image) {
+            const post = await Post.findById(req.params.id);
+            image = post ? post.image : null;
+        }
 
         const updatedPost = await Post.findByIdAndUpdate(
             req.params.id,
