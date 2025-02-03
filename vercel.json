@@ -2,8 +2,8 @@
     "version": 2,
     "builds": [
       {
-        "src": "server.js",  
-        "use": "@vercel/node" 
+        "src": "server.js",
+        "use": "@vercel/node"
       }
     ],
     "routes": [
@@ -12,10 +12,5 @@
         "dest": "server.js"
       }
     ],
-    "functions": {
-      "api/**/*.js": { 
-        "api": true
-      }
-    },
     "public": "uploads" 
   }
