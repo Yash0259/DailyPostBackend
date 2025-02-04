@@ -11,8 +11,11 @@ const app = express();
 
 // Middleware to allow all origins
 app.use(cors({
-  origin: "*", // Allows all origins
-}));
+    origin: process.env.VITE_API_URL || "*", // Use environment variable for frontend
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization"
+  }));
+  
 
 app.use(express.json());
 app.use(morgan("dev"));
